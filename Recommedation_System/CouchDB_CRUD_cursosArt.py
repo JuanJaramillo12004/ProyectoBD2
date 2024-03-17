@@ -46,25 +46,53 @@ def consultar_documento(tipo,llave,valor):
         print(f"No se encontro")
         time.sleep(1)
         return ""
-        
+#funcion eliminacion de documento
+def eliminacionDocumentoId(tipo,llave,valor):
+    # Utilizar la vista correspondiente según el tipo de documento
+    design_doc = f"_design/{tipo}"
+    view_name = f"buscar_por_{llave}"
+
+    # Verificar si el diseño y la vista existen
+    try:
+        db[design_doc]
+    except couchdb.ResourceNotFound:
+        print(f"El diseño '{design_doc}' y la vista '{view_name}' no existen.")
+        time.sleep(1)
+        return ""
+    
+    # Utilizar la vista para buscar el documento por la llave
+    try:
+        # Obtener el documento utilizando la vista
+        resultados = db.view(f"{tipo}/{view_name}", key=valor)
+        # Eliminamos los resultados encontrados uno por uno
+        for row in resultados:
+            db.delete(db[row.id])
+        return "Documentos eliminados correctamente."
+    except couchdb.ResourceNotFound:
+        print(f"No se encontraron documentos para la llave '{llave}' y el valor '{valor}'.")
+        time.sleep(1)
+        return ""
+
+#cambios al menu 
 def menu():
     while True:
         opcion = int(input('''---------------------------------------
 Seleccione la opcion que desea
 1. Creación
 2. Consulta
-3. Salir
+3. Eliminar
+4. Salir
 Ingrese: '''))
 
         if opcion == 1:
-            subOpcion = int(input('''-----------------------------------
+            Opc_1 = int(input('''-----------------------------------
 ---¿Qué tipo de rol desea crear?---
 1. Aprendiz
 2. Tutor
 3. Curso
 Ingrese: '''))
             
-            if subOpcion == 1:
+            if Opc_1 == 1:
                 id = input("Ingrese el ID del aprendiz: ")
                 nombre = input("Ingrese el nombre del aprendiz: ")
                 carrera = input("Ingrese la carrera del aprendiz: ")
@@ -80,7 +108,7 @@ Ingrese: '''))
                 validarGuardado(aprendiz["_id"])
                 pass
             
-            elif subOpcion == 2:
+            elif Opc_1 == 2:
                 id = input("Ingrese el ID del tutor: ")
                 nombre = input("Ingrese el nombre del tutor: ")
                 carrera = input("Ingrese la carrera del tutor: ")
@@ -100,7 +128,7 @@ Ingrese: '''))
                 pass
                 
 
-            elif subOpcion == 3:
+            elif Opc_1 == 3:
                 id = input("Ingrese el ID del curso: ")
                 nombre = input("Ingrese el nombre del curso: ")
                 categoria = input("Ingrese la categoria del curso: ")
@@ -129,7 +157,7 @@ Ingrese: '''))
                 print("Opción Inválida. Proporcione una opción correcta.")
         
         elif opcion == 2:
-            opc1 = int(input('''---------------------------
+            Opc_2 = int(input('''---------------------------
 ---CONSULTA POR CRITERIO---
 1. Consultar Aprendiz
 2. Consultar Tutor
@@ -137,7 +165,7 @@ Ingrese: '''))
 4. Regresar
 Ingrese: '''))
             
-            if opc1 == 1:
+            if Opc_2 == 1:
                 tipo = "Aprendiz"
                 llave = str(input("Ingrese el criterio de búsqueda:\nid, nombre, carrera ó semestre: ")).lower()
                 valor = input(f"Ingrese el valor del criterio '{llave}': ")
@@ -147,7 +175,7 @@ Ingrese: '''))
                     print(aprendiz)
                     time.sleep(1)
 
-            elif opc1 == 2:
+            elif Opc_2 == 2:
                 tipo = "Tutor"
                 llave = str(input("Ingrese el criterio de búsqueda:\nid, nombre, carrera, semestre ó calPromedio: ")).lower()
                 valor = input(f"Ingrese el valor del criterio '{llave}': ")
@@ -157,7 +185,7 @@ Ingrese: '''))
                     print(tutor)
                     time.sleep(1)
                     
-            elif opc1 == 3:
+            elif Opc_2 == 3:
                 tipo = "Curso"
                 llave = str(input("Ingrese el criterio de búsqueda:\nid, nombre, categoria, modalidad, gratuito, precio, duracion, certificado ó calPromedio: ")).lower()
                 valor = input(f"Ingrese el valor del criterio '{llave}': ")
@@ -167,12 +195,57 @@ Ingrese: '''))
                     print(curso)
                     time.sleep(1)
                     
-            elif opc1 == 4:
+            elif Opc_2 == 4:
                 continue  # Volver al menú principal
             else:
                 print("Opción Inválida. Proporcione una opción correcta.")
         
-        elif opcion == 3:
+        elif opcion ==3:
+            Opc_3 = int(input('''---------------------------
+---ELIMINACION---
+1. Aprendiz
+2. Tutor
+3. Curso
+4. Regresar
+Ingrese: '''))
+            
+            if Opc_3 == 1:
+                tipo = "Aprendiz"
+                llave = str(input("Ingrese el criterio de búsqueda:\nid, nombre, carrera ó semestre: ")).lower()
+                valor = input(f"Ingrese el valor del criterio '{llave}': ")
+                aprendices = eliminacionDocumentoId(tipo,llave,valor)
+                print("Aprendices eliminados:")
+                for aprendiz in aprendices:
+                    print(aprendiz)
+                    time.sleep(1)
+            
+            elif Opc_3 == 2:
+                tipo = "Tutor"
+                llave = str(input("Ingrese el criterio de búsqueda:\nid, nombre, carrera, semestre ó calPromedio: ")).lower()
+                valor = input(f"Ingrese el valor del criterio '{llave}': ")
+                tutores = eliminacionDocumentoId(tipo,llave,valor)
+                print("Tutores eliminados:")
+                for tutor in tutores:
+                    print(tutor)
+                    time.sleep(1)
+            
+            elif Opc_3 == 3:
+                tipo = "Curso"
+                llave = str(input("Ingrese el criterio de búsqueda:\nid, nombre, categoria, modalidad, gratuito, precio, duracion, certificado ó calPromedio: ")).lower()
+                valor = input(f"Ingrese el valor del criterio '{llave}': ")
+                cursos = eliminacionDocumentoId(tipo,llave,valor)
+                print("Cursos eliminados:")
+                for curso in cursos:
+                    print(curso)
+                    time.sleep(1)
+                    
+            elif Opc_3 == 4:
+                continue  # Volver al menú principal
+            else:
+                print("Opción Inválida. Proporcione una opción correcta.")
+                    
+            
+        elif opcion == 4:
             print("Salir")
             break  # Salir del bucle while y finalizar el programa
         
