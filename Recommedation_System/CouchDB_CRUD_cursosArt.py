@@ -32,13 +32,16 @@ def consultar_documento(tipo,llave,valor):
     design_doc = f"_design/{tipo}"
     view_name = f"buscar_{llave}"
     
+    # Verificar si el diseño y la vista existen
     try:
         db[design_doc]
     except couchdb.ResourceNotFound:
         print(f"La vista {design_doc} no existe")
         return ""
-    
-    try:
+
+    # Utilizar la vista para buscar el documento por la llave
+    try:        
+        # Obtener el documento utilizando la vista
         resultados = db.view(f"{tipo}/{view_name}", key=valor)
         print("Dato encontrado")
         return [row.value for row in resultados]
@@ -46,11 +49,12 @@ def consultar_documento(tipo,llave,valor):
         print(f"No se encontro")
         time.sleep(1)
         return ""
+    
 #funcion eliminacion de documento
-def eliminacionDocumentoId(tipo,llave,valor):
+def eliminacionDocumento(tipo,llave,valor):
     # Utilizar la vista correspondiente según el tipo de documento
     design_doc = f"_design/{tipo}"
-    view_name = f"buscar_por_{llave}"
+    view_name = f"buscar_{llave}"
 
     # Verificar si el diseño y la vista existen
     try:
@@ -246,7 +250,7 @@ Ingrese: '''))
                     
             
         elif opcion == 4:
-            print("Salir")
+            print("Saliendo...")
             break  # Salir del bucle while y finalizar el programa
         
         else:
