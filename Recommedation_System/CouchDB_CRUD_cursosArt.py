@@ -50,6 +50,22 @@ def consultar_documento(tipo,llave,valor):
         time.sleep(1)
         return ""
     
+def verificar_curso(idCurso):
+    # Buscar el curso por su ID
+    cursos = consultar_documento("Curso", "id", idCurso)
+    if cursos:
+        return True
+    else:
+        return False
+
+def verificar_aprendiz(idAprendiz):
+    # Buscar el curso por su ID
+    aprendices = consultar_documento("Aprendiz", "id", idAprendiz)
+    if aprendices:
+        return True
+    else:
+        return False
+    
 #funcion eliminacion de documento
 def eliminacionDocumento(tipo,llave,valor):
     # Utilizar la vista correspondiente según el tipo de documento
@@ -71,13 +87,117 @@ def eliminacionDocumento(tipo,llave,valor):
         # Eliminamos los resultados encontrados uno por uno
         for row in resultados:
             db.delete(db[row.id])
-        return "Documentos eliminados correctamente."
+        return print (f"{tipo} eliminado correctamente.")
     except couchdb.ResourceNotFound:
         print(f"No se encontraron documentos para la llave '{llave}' y el valor '{valor}'.")
         time.sleep(1)
         return ""
 
-#cambios al menu 
+def actualizar_curso_aprendiz(id, nombre, llave, valor):
+    design_doc = f"_design/Curso"
+    view_name = f"buscar_{llave}"
+    
+    try:
+        db[design_doc]
+    except couchdb.ResourceNotFound:
+        print(f"El diseño {design_doc} no existe")
+        return "Diseño no encontrado"
+
+    try:
+        resultados = db.view(f"Curso/{view_name}", key=valor)
+        print ("Hola")
+        #var = [row.value for row in resultados]
+
+        if len(resultados) == 0:
+            print('No se encontraron los documentos que coincidan con la consulta')
+            return 'No se encontraron los documentos que coincidan con la consulta'
+        
+        for row in resultados:
+            # Obteniendo el documento
+            doc_id = row.id
+            doc = db[doc_id]
+           
+            # Actualizando el documento
+            if 'aprendices' not in doc:
+                doc['aprendices'] = []
+            doc['aprendices'].append({"id":id, "nombre": nombre})
+            
+            # Guardando el documento actualizado
+            db.save(doc)
+            
+        return "Documento actualizado correctamente."
+    
+    except couchdb.ResourceNotFound:
+        print("No se encontró la vista.")
+        time.sleep(1)
+        return "Vista no encontrada"
+
+        
+def actualizar_curso_tutor(id, nombre, llave, valor):
+    design_doc = f"_design/Curso"
+    view_name = f"buscar_{llave}"
+    
+    try:
+        db[design_doc]
+    except couchdb.ResourceNotFound:
+        print(f"El diseño {design_doc} no existe")
+        return "Diseño no encontrado"
+
+    try:
+        resultados = db.view(f"Curso/{view_name}", key=valor)
+        print ("Hola")
+        #var = [row.value for row in resultados]
+
+        if len(resultados) == 0:
+            print('No se encontraron los documentos que coincidan con la consulta')
+            return 'No se encontraron los documentos que coincidan con la consulta'
+        
+        for row in resultados:
+            # Obteniendo el documento
+            doc_id = row.id
+            doc = db[doc_id]
+           
+
+            if 'tutor' in doc:
+                print('Ya hay un tutor asignado a este curso. No se puede agregar otro.')
+                return 'Ya hay un tutor asignado a este curso. No se puede agregar otro.'
+            
+            # Actualizando el documento con el nuevo tutor
+            doc['tutor'] = {"id": id, "nombre": nombre}
+            
+            # Guardando el documento actualizado
+            db.save(doc)
+        
+        return "Documento actualizado correctamente"
+    
+    except couchdb.ResourceNotFound:
+        print("No se encontró la vista.")
+        time.sleep(1)
+        return "Vista no encontrada"
+    
+#funcion aprendices por curso
+def busqueda_curso(tipo, llave, valor):
+    design_doc = f"_design/{tipo}"
+    view_name = f"buscar_{tipo}"
+
+    try:
+        db[design_doc]
+    except couchdb.ResourceNotFound:
+        print(f"La vista {design_doc} no existe")
+        return ""
+    
+    # Utilizar la vista para buscar el documento por la llave
+    try:
+        # Obtener el documento utilizando la vista
+        resultados = db.view(f"{tipo}/{view_name}", key=valor)
+        print("Dato encontrado")
+        return [row.value for row in resultados]
+    except couchdb.ResourceNotFound:
+        print(f"No se encontro")
+        time.sleep(1)
+        return ""
+
+# Menú de opciones 
 def menu():
     while True:
         opcion = int(input('''---------------------------------------
@@ -101,14 +221,28 @@ Ingrese: '''))
                 nombre = input("Ingrese el nombre del aprendiz: ")
                 carrera = input("Ingrese la carrera del aprendiz: ")
                 semestre = int(input("Ingrese el semestre cursado del aprendiz: "))
+                idCursos = []
+                while True:
+                    idCurso = str(input("Ingrese el ID del curso al que asiste el aprendiz (o 'fin' para terminar): "))
+                    if idCurso.lower() == 'fin':
+                        break
+                    if verificar_curso(idCurso):
+                        idCursos.append(idCurso)
+                    else:
+                        print(f"El ID digitado es erroneo. Por favor ingrese un ID válido: ")
                 aprendiz = {
                     "tipo":"Aprendiz",
                     "id":id,
                     "nombre":nombre,
                     "carrera":carrera,
-                    "semestre":semestre
+                    "semestre":semestre,
+                    "idCurso":idCursos
                 }
                 db.save(aprendiz)
+
+                for curso_id in idCursos:
+                    actualizar_curso_aprendiz(id, nombre, "id", curso_id)
+                    
                 validarGuardado(aprendiz["_id"])
                 pass
             
@@ -118,18 +252,34 @@ Ingrese: '''))
                 carrera = input("Ingrese la carrera del tutor: ")
                 semestre = int(input("Ingrese el semestre cursado del tutor: "))
                 calPromedio = float(input("Ingrese la calificacion promedio del tutor: "))
+                              
+                while True:
+                    
+                    idCurso = str(input("Ingrese el ID del curso que dicta el tutor: "))
+                    if verificar_curso(idCurso):
+                        curso = db.get(idCurso)
+                        if curso and 'tutor' in curso:
+                            print("Ya hay un tutor asignado a este curso, por favor ingresa otro.")
+                        else:
+                            print ("Tutor almacenado correctamente.")
+                            
+                            tutor = {
+                                "tipo":"Tutor",
+                                "id":id,
+                                "nombre":nombre,
+                                "carrera":carrera,
+                                "semestre":semestre,
+                                "calPromedio":calPromedio,
+                                "idCurso":idCurso
+                            }
+                            db.save(tutor)
 
-                tutor = {
-                    "tipo":"Tutor",
-                    "id":id,
-                    "nombre":nombre,
-                    "carrera":carrera,
-                    "semestre":semestre,
-                    "calPromedio":calPromedio
-                }
-                db.save(tutor)
-                validarGuardado(tutor["_id"])
-                pass
+                            actualizar_curso_tutor(id, nombre, "id", idCurso)
+                            validarGuardado(tutor["_id"])
+                            break
+                    else:
+                        print("El ID digitado es erroneo. Por favor ingrese un ID valido.")
+                        pass
                 
 
             elif Opc_1 == 3:
@@ -141,7 +291,8 @@ Ingrese: '''))
                 precio = float(input("Ingrese el precio del curso: "))
                 duracion = int(input("Ingrese la duración del curso: "))
                 certificado = True if input("¿El curso tiene certificado? (V/F)\n Ingrese una opcion: ").upper() ==  "V" else False
-                calPromedio = float(input("Ingrese la calificacion promedio del curso: "))
+                calPromedio = float(input("Ingrese la calificacion promedio del curso (0.0 a 5.0): "))
+                
                 curso = {
                     "tipo":"Curso",
                     "id":id,
@@ -152,7 +303,8 @@ Ingrese: '''))
                     "precio":precio,
                     "duracion":duracion,  
                     "certificado":certificado,
-                    "calPromedio":calPromedio
+                    "calPromedio":calPromedio,
+                    "aprendices": []
                 }
                 db.save(curso)
                 validarGuardado(curso["_id"])
@@ -166,12 +318,13 @@ Ingrese: '''))
 1. Consultar Aprendiz
 2. Consultar Tutor
 3. Consultar Curso
-4. Regresar
+4. Consultar Aprendices por Curso
+5. Regresar
 Ingrese: '''))
             
             if Opc_2 == 1:
                 tipo = "Aprendiz"
-                llave = str(input("Ingrese el criterio de búsqueda:\nid, nombre, carrera ó semestre: ")).lower()
+                llave = str(input("Ingrese el criterio de búsqueda\nid, nombre, carrera ó semestre: ")).lower()
                 valor = input(f"Ingrese el valor del criterio '{llave}': ")
                 aprendices = consultar_documento(tipo, llave, valor)
                 print("Aprendices encontrados:")
@@ -181,7 +334,7 @@ Ingrese: '''))
 
             elif Opc_2 == 2:
                 tipo = "Tutor"
-                llave = str(input("Ingrese el criterio de búsqueda:\nid, nombre, carrera, semestre ó calPromedio: ")).lower()
+                llave = str(input("Ingrese el criterio de búsqueda\nid, nombre, carrera ó semestre: ")).lower()
                 valor = input(f"Ingrese el valor del criterio '{llave}': ")
                 tutores = consultar_documento(tipo, llave, valor)
                 print("Tutores encontrados:")
@@ -191,15 +344,25 @@ Ingrese: '''))
                     
             elif Opc_2 == 3:
                 tipo = "Curso"
-                llave = str(input("Ingrese el criterio de búsqueda:\nid, nombre, categoria, modalidad, gratuito, precio, duracion, certificado ó calPromedio: ")).lower()
+                llave = str(input("Ingrese el criterio de búsqueda\nid, nombre, categoria, modalidad, gratuito, precio, duracion, certificado ó calPromedio: ")).lower()
                 valor = input(f"Ingrese el valor del criterio '{llave}': ")
                 cursos = consultar_documento(tipo, llave, valor)
                 print("Cursos encontrados:")
                 for curso in cursos:
                     print(curso)
                     time.sleep(1)
-                    
+            
             elif Opc_2 == 4:
+                tipo = "Curso_Aprendiz"
+                llave = "Curso"
+                valor = input(f"Ingrese el curso que desea ver: ")
+                curso_aprendiz = busqueda_curso(tipo, llave, valor)
+                print("Aprendices encontrados:")
+                for curso_aprendiz in curso_aprendiz:
+                    print(curso_aprendiz)
+                    time.sleep(1)
+                    
+            elif Opc_2 == 5:
                 continue  # Volver al menú principal
             else:
                 print("Opción Inválida. Proporcione una opción correcta.")
@@ -215,33 +378,24 @@ Ingrese: '''))
             
             if Opc_3 == 1:
                 tipo = "Aprendiz"
-                llave = str(input("Ingrese el criterio de búsqueda:\nid, nombre, carrera ó semestre: ")).lower()
+                llave = str(input("Ingrese el criterio de eliminación\nid, nombre, carrera ó semestre: ")).lower()
                 valor = input(f"Ingrese el valor del criterio '{llave}': ")
                 aprendices = eliminacionDocumento(tipo,llave,valor)
-                print("Aprendices eliminados:")
-                for aprendiz in aprendices:
-                    print(aprendiz)
-                    time.sleep(1)
+                time.sleep(1)
             
             elif Opc_3 == 2:
                 tipo = "Tutor"
-                llave = str(input("Ingrese el criterio de búsqueda:\nid, nombre, carrera, semestre ó calPromedio: ")).lower()
+                llave = str(input("Ingrese el criterio de eliminación\nid, nombre, carrera, semestre ó calPromedio: ")).lower()
                 valor = input(f"Ingrese el valor del criterio '{llave}': ")
                 tutores = eliminacionDocumento(tipo,llave,valor)
-                print("Tutores eliminados:")
-                for tutor in tutores:
-                    print(tutor)
-                    time.sleep(1)
+                time.sleep(1)
             
             elif Opc_3 == 3:
                 tipo = "Curso"
-                llave = str(input("Ingrese el criterio de búsqueda:\nid, nombre, categoria, modalidad, gratuito, precio, duracion, certificado ó calPromedio: ")).lower()
+                llave = str(input("Ingrese el criterio de eliminación\nid, nombre, categoria, modalidad, gratuito, precio, duracion, certificado ó calPromedio: ")).lower()
                 valor = input(f"Ingrese el valor del criterio '{llave}': ")
                 cursos = eliminacionDocumento(tipo,llave,valor)
-                print("Cursos eliminados:")
-                for curso in cursos:
-                    print(curso)
-                    time.sleep(1)
+                time.sleep(1)
                     
             elif Opc_3 == 4:
                 continue  # Volver al menú principal
