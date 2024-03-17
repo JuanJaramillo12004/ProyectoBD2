@@ -217,7 +217,7 @@ Ingrese: '''))
                 tipo = "Aprendiz"
                 llave = str(input("Ingrese el criterio de búsqueda:\nid, nombre, carrera ó semestre: ")).lower()
                 valor = input(f"Ingrese el valor del criterio '{llave}': ")
-                aprendices = eliminacionDocumentoId(tipo,llave,valor)
+                aprendices = eliminacionDocumento(tipo,llave,valor)
                 print("Aprendices eliminados:")
                 for aprendiz in aprendices:
                     print(aprendiz)
@@ -227,7 +227,7 @@ Ingrese: '''))
                 tipo = "Tutor"
                 llave = str(input("Ingrese el criterio de búsqueda:\nid, nombre, carrera, semestre ó calPromedio: ")).lower()
                 valor = input(f"Ingrese el valor del criterio '{llave}': ")
-                tutores = eliminacionDocumentoId(tipo,llave,valor)
+                tutores = eliminacionDocumento(tipo,llave,valor)
                 print("Tutores eliminados:")
                 for tutor in tutores:
                     print(tutor)
@@ -237,7 +237,7 @@ Ingrese: '''))
                 tipo = "Curso"
                 llave = str(input("Ingrese el criterio de búsqueda:\nid, nombre, categoria, modalidad, gratuito, precio, duracion, certificado ó calPromedio: ")).lower()
                 valor = input(f"Ingrese el valor del criterio '{llave}': ")
-                cursos = eliminacionDocumentoId(tipo,llave,valor)
+                cursos = eliminacionDocumento(tipo,llave,valor)
                 print("Cursos eliminados:")
                 for curso in cursos:
                     print(curso)
