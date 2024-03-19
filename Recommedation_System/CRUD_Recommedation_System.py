@@ -253,39 +253,6 @@ Ingrese: '''))
                         break
                     pass
                         
-                while True:
-                    id = input("Ingrese el ID del curso: ")
-                    if verificar_curso(id):
-                        print("Id Existente. Digite un Id diferente.")
-                    else:
-                        nombre = input("Ingrese el nombre del curso: ")
-                        categoria = input("Ingrese la categoria del curso: ")
-                        modalidad = input("Ingrese la modalidad del curso: ")
-                        gratuito = True if input("¿El curso es gratuito? (V/F)\n Ingrese una opcion: ").upper() == "V" else False
-                        precio = float(input("Ingrese el precio del curso: "))
-                        duracion = int(input("Ingrese la duración del curso (horas): "))
-                        certificado = True if input("¿El curso tiene certificado? (V/F)\n Ingrese una opcion: ").upper() ==  "V" else False
-                        calPromedio = float(input("Ingrese la calificacion promedio del curso (0.0 a 5.0): "))
-                        
-                        curso = {
-                            "tipo":"Curso",
-                            "id":id,
-                            "nombre":nombre,
-                            "categoria":categoria,
-                            "modalidad":modalidad,
-                            "gratuito":gratuito,
-                            "precio":precio,
-                            "duracion":duracion,  
-                            "certificado":certificado,
-                            "calPromedio":calPromedio,
-                            "aprendices": [],
-                            "tutor":[]
-                        }
-                        db.save(curso)
-                        validarGuardado(curso["_id"])
-                        break
-                    pass
-                        
             elif Opc_1 == 2:
                 while True:
                     id = input("Ingrese el ID del aprendiz: ")
@@ -313,46 +280,7 @@ Ingrese: '''))
                             "idCurso":idCursos
                         }
                         
-                        
-                        db.save(aprendiz)
-                while True:
-                    id = input("Ingrese el ID del aprendiz: ")
-                    if verificar_aprendiz(id):
-                        print("Id Existente. Digite un Id diferente.")
-                    else:
-                        nombre = input("Ingrese el nombre del aprendiz: ")
-                        carrera = input("Ingrese la carrera del aprendiz: ")
-                        semestre = int(input("Ingrese el semestre cursado del aprendiz: "))
-                        idCursos = []
-                        while True:
-                            idCurso = str(input("Ingrese el ID del curso al que asiste el aprendiz (o 'fin' para terminar): "))
-                            if idCurso.lower() == 'fin':
-                                break
-                            if verificar_curso(idCurso):
-                                idCursos.append(idCurso)
-                            else:
-                                print(f"El ID digitado es erroneo. Por favor ingrese un ID válido: ")
-                        aprendiz = {
-                            "tipo":"Aprendiz",
-                            "id":id,
-                            "nombre":nombre,
-                            "carrera":carrera,
-                            "semestre":semestre,
-                            "idCurso":idCursos
-                        }
-                        
-                        
-                        db.save(aprendiz)
-
-                        for curso_id in idCursos:
-                            actualizar_curso_aprendiz(id, nombre, "id", curso_id)
-                            curso_aprendiz = {
-                            "tipo" : "curso_aprendiz",
-                            "idCurso" : idCursos,
-                            "idAprendiz" : id
-                        }
-                            db.save(curso_aprendiz)
-                        
+                        db.save(aprendiz)                        
                         validarGuardado(aprendiz["_id"])
                         break
                     pass
@@ -395,44 +323,6 @@ Ingrese: '''))
                                         "idTutor" : id
                                     }
                                     db.save(curso_tutor)
-                while True:
-                    id = input("Ingrese el ID del tutor: ")
-                    if verificar_tutor(id):
-                        print("Id Existente. Digite un Id diferente.")
-                    else:
-                        nombre = input("Ingrese el nombre del tutor: ")
-                        carrera = input("Ingrese la carrera del tutor: ")
-                        semestre = int(input("Ingrese el semestre cursado del tutor: "))
-                        calPromedio = float(input("Ingrese la calificacion promedio del tutor: "))
-                                    
-                        while True:
-                            
-                            idCurso = str(input("Ingrese el ID del curso que dicta el tutor: "))
-                            if verificar_curso(idCurso):
-                                curso = db.get(idCurso)
-                                if curso and 'tutor' in curso:
-                                    print("Ya hay un tutor asignado a este curso, por favor ingresa otro.")
-                                else:
-                                    print ("Tutor almacenado correctamente.")
-                                    
-                                    tutor = {
-                                        "tipo":"Tutor",
-                                        "id":id,
-                                        "nombre":nombre,
-                                        "carrera":carrera,
-                                        "semestre":semestre,
-                                        "calPromedio":calPromedio,
-                                        "idCurso":idCurso
-                                    }
-                                    db.save(tutor)
-                                    
-                                    curso_tutor = {
-                                        "tipo" : "curso_tutor",
-                                        "idCurso" : idCurso,
-                                        "idTutor" : id
-                                    }
-                                    db.save(curso_tutor)
-
                                     actualizar_curso_tutor(id, nombre, "id", idCurso)
                                     validarGuardado(tutor["_id"])
                                     break
@@ -449,24 +339,11 @@ Ingrese: '''))
 1. Consultar Curso
 2. Consultar Aprendiz
 3. Consultar Tutor
-1. Consultar Curso
-2. Consultar Aprendiz
-3. Consultar Tutor
 4. Consultar Aprendices por Curso
 5. Regresar
 Ingrese: '''))
             
             if Opc_2 == 1:
-                tipo = "Curso"
-                llave = str(input("Ingrese el criterio de búsqueda\nid, nombre, categoria, modalidad, gratuito, precio, duracion, certificado ó calPromedio: ")).lower()
-                valor = input(f"Ingrese el valor del criterio '{llave}': ")
-                cursos = consultar_documento(tipo, llave, valor)
-                print("Cursos encontrados:")
-                for curso in cursos:
-                    print(curso)
-                    time.sleep(1)
-
-            elif Opc_2 == 2:
                 tipo = "Curso"
                 llave = str(input("Ingrese el criterio de búsqueda\nid, nombre, categoria, modalidad, gratuito, precio, duracion, certificado ó calPromedio: ")).lower()
                 valor = input(f"Ingrese el valor del criterio '{llave}': ")
@@ -498,12 +375,6 @@ Ingrese: '''))
             
             elif Opc_2 == 4:
                 tipo = "Curso"
-                llave = "aprendices_curso"
-                valor = input(f"Ingrese el id del curso que desea ver: ")
-                curso_aprendiz = busqueda_curso(tipo, llave, valor)
-                print(f"Aprendices del curso con id {valor} encontrados:")
-                for curso_aprendiz in curso_aprendiz:
-                    print(curso_aprendiz)
                 llave = "aprendices_curso"
                 valor = input(f"Ingrese el id del curso que desea ver: ")
                 curso_aprendiz = busqueda_curso(tipo, llave, valor)
