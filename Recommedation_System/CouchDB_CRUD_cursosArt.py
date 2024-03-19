@@ -211,78 +211,12 @@ Ingrese: '''))
         if opcion == 1:
             Opc_1 = int(input('''-----------------------------------
 ---¿Qué tipo de rol desea crear?---
-1. Aprendiz
-2. Tutor
-3. Curso
+1. Curso
+2. Aprendiz
+3. Tutor
 Ingrese: '''))
             
             if Opc_1 == 1:
-                id = input("Ingrese el ID del aprendiz: ")
-                nombre = input("Ingrese el nombre del aprendiz: ")
-                carrera = input("Ingrese la carrera del aprendiz: ")
-                semestre = int(input("Ingrese el semestre cursado del aprendiz: "))
-                idCursos = []
-                while True:
-                    idCurso = str(input("Ingrese el ID del curso al que asiste el aprendiz (o 'fin' para terminar): "))
-                    if idCurso.lower() == 'fin':
-                        break
-                    if verificar_curso(idCurso):
-                        idCursos.append(idCurso)
-                    else:
-                        print(f"El ID digitado es erroneo. Por favor ingrese un ID válido: ")
-                aprendiz = {
-                    "tipo":"Aprendiz",
-                    "id":id,
-                    "nombre":nombre,
-                    "carrera":carrera,
-                    "semestre":semestre,
-                    "idCurso":idCursos
-                }
-                db.save(aprendiz)
-
-                for curso_id in idCursos:
-                    actualizar_curso_aprendiz(id, nombre, "id", curso_id)
-                    
-                validarGuardado(aprendiz["_id"])
-                pass
-            
-            elif Opc_1 == 2:
-                id = input("Ingrese el ID del tutor: ")
-                nombre = input("Ingrese el nombre del tutor: ")
-                carrera = input("Ingrese la carrera del tutor: ")
-                semestre = int(input("Ingrese el semestre cursado del tutor: "))
-                calPromedio = float(input("Ingrese la calificacion promedio del tutor: "))
-                              
-                while True:
-                    
-                    idCurso = str(input("Ingrese el ID del curso que dicta el tutor: "))
-                    if verificar_curso(idCurso):
-                        curso = db.get(idCurso)
-                        if curso and 'tutor' in curso:
-                            print("Ya hay un tutor asignado a este curso, por favor ingresa otro.")
-                        else:
-                            print ("Tutor almacenado correctamente.")
-                            
-                            tutor = {
-                                "tipo":"Tutor",
-                                "id":id,
-                                "nombre":nombre,
-                                "carrera":carrera,
-                                "semestre":semestre,
-                                "calPromedio":calPromedio,
-                                "idCurso":idCurso
-                            }
-                            db.save(tutor)
-
-                            actualizar_curso_tutor(id, nombre, "id", idCurso)
-                            validarGuardado(tutor["_id"])
-                            break
-                    else:
-                        print("El ID digitado es erroneo. Por favor ingrese un ID valido.")
-                        pass
-                
-
-            elif Opc_1 == 3:
                 id = input("Ingrese el ID del curso: ")
                 nombre = input("Ingrese el nombre del curso: ")
                 categoria = input("Ingrese la categoria del curso: ")
@@ -309,9 +243,91 @@ Ingrese: '''))
                 db.save(curso)
                 validarGuardado(curso["_id"])
                 pass
+                
+            
+            
+            elif Opc_1 == 2:
+                id = input("Ingrese el ID del aprendiz: ")
+                nombre = input("Ingrese el nombre del aprendiz: ")
+                carrera = input("Ingrese la carrera del aprendiz: ")
+                semestre = int(input("Ingrese el semestre cursado del aprendiz: "))
+                idCursos = []
+                while True:
+                    idCurso = str(input("Ingrese el ID del curso al que asiste el aprendiz (o 'fin' para terminar): "))
+                    if idCurso.lower() == 'fin':
+                        break
+                    if verificar_curso(idCurso):
+                        idCursos.append(idCurso)
+                    else:
+                        print(f"El ID digitado es erroneo. Por favor ingrese un ID válido: ")
+                aprendiz = {
+                    "tipo":"Aprendiz",
+                    "id":id,
+                    "nombre":nombre,
+                    "carrera":carrera,
+                    "semestre":semestre,
+                    "idCurso":idCursos
+                }
+                
+                
+                db.save(aprendiz)
+
+                for curso_id in idCursos:
+                    actualizar_curso_aprendiz(id, nombre, "id", curso_id)
+                    curso_aprendiz = {
+                    "tipo" : "curso_aprendiz",
+                    "idCurso" : idCursos,
+                    "idAprendiz" : id
+                }
+                    db.save(curso_aprendiz)
+                
+                validarGuardado(aprendiz["_id"])
+                pass
+            
+            elif Opc_1 == 3:
+                id = input("Ingrese el ID del tutor: ")
+                nombre = input("Ingrese el nombre del tutor: ")
+                carrera = input("Ingrese la carrera del tutor: ")
+                semestre = int(input("Ingrese el semestre cursado del tutor: "))
+                calPromedio = float(input("Ingrese la calificacion promedio del tutor: "))
+                              
+                while True:
+                    
+                    idCurso = str(input("Ingrese el ID del curso que dicta el tutor: "))
+                    if verificar_curso(idCurso):
+                        curso = db.get(idCurso)
+                        if curso and 'tutor' in curso:
+                            print("Ya hay un tutor asignado a este curso, por favor ingresa otro.")
+                        else:
+                            print ("Tutor almacenado correctamente.")
+                            
+                            tutor = {
+                                "tipo":"Tutor",
+                                "id":id,
+                                "nombre":nombre,
+                                "carrera":carrera,
+                                "semestre":semestre,
+                                "calPromedio":calPromedio,
+                                "idCurso":idCurso
+                            }
+                            db.save(tutor)
+                            
+                            curso_tutor = {
+                                "tipo" : "curso_tutor",
+                                "idCurso" : idCurso,
+                                "idTutor" : id
+                            }
+                            db.save(curso_tutor)
+
+                            actualizar_curso_tutor(id, nombre, "id", idCurso)
+                            validarGuardado(tutor["_id"])
+                            break
+                    else:
+                        print("El ID digitado es erroneo. Por favor ingrese un ID valido.")
+                        pass
             else:
-                print("Opción Inválida. Proporcione una opción correcta.")
-        
+                print("Opción Inválida. Proporcione una opción correcta.")    
+
         elif opcion == 2:
             Opc_2 = int(input('''---------------------------
 ---CONSULTA POR CRITERIO---
@@ -352,15 +368,15 @@ Ingrese: '''))
                     print(curso)
                     time.sleep(1)
             
-            elif Opc_2 == 4:
-                tipo = "Curso_Aprendiz"
-                llave = "Curso"
-                valor = input(f"Ingrese el curso que desea ver: ")
-                curso_aprendiz = busqueda_curso(tipo, llave, valor)
-                print("Aprendices encontrados:")
-                for curso_aprendiz in curso_aprendiz:
-                    print(curso_aprendiz)
-                    time.sleep(1)
+            #elif Opc_2 == 4:
+             #   tipo = "Curso_Aprendiz"
+              #  llave = "Curso"
+               # valor = input(f"Ingrese el curso que desea ver: ")
+               # curso_aprendiz = busqueda_curso(tipo, llave, valor)
+               # print("Aprendices encontrados:")
+               # for curso_aprendiz in curso_aprendiz:
+                #    print(curso_aprendiz)
+                 #   time.sleep(1)
                     
             elif Opc_2 == 5:
                 continue  # Volver al menú principal
