@@ -28,7 +28,10 @@
       },
       "buscar_calPromedio": {
         "map": "function (doc) { if (doc.tipo === 'Curso' && doc.calPromedio)  { emit(doc.calPromedio, doc); } }"
-      }
+      },
+    "buscar_aprendices_curso": {
+      "map": "function (doc) { if (doc.tipo === 'Curso' && doc.id) { emit(doc.id, {'Curso': doc.nombre,\r'Aprendices': doc.aprendices});}}"
+    }
     },
     "language": "javascript"
   }
