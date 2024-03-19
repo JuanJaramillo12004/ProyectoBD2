@@ -17,7 +17,6 @@ if (db_name in couch_server):
     db = couch_server[db_name]
 else:
     print("Creando base de datos...")
-    print("Creando base de datos...")
     db = couch_server.create(db_name)
 
 #Operaciones del crud:
@@ -62,7 +61,6 @@ def verificar_curso(idCurso):
         return False
 
 def verificar_aprendiz(idAprendiz):
-    # Buscar el aprendiz por su ID
     # Buscar el aprendiz por su ID
     aprendices = consultar_documento("Aprendiz", "id", idAprendiz)
     if aprendices:
@@ -182,8 +180,7 @@ def actualizar_curso_tutor(id, nombre, llave, valor):
 def busqueda_curso(tipo, llave, valor):
     design_doc = f"_design/{tipo}"
     view_name = f"buscar_{llave}"
-    view_name = f"buscar_{llave}"
-
+    
     try:
         db[design_doc]
         
@@ -359,18 +356,6 @@ Ingrese: '''))
                         validarGuardado(aprendiz["_id"])
                         break
                     pass
-                        for curso_id in idCursos:
-                            actualizar_curso_aprendiz(id, nombre, "id", curso_id)
-                            curso_aprendiz = {
-                            "tipo" : "curso_aprendiz",
-                            "idCurso" : idCursos,
-                            "idAprendiz" : id
-                        }
-                            db.save(curso_aprendiz)
-                        
-                        validarGuardado(aprendiz["_id"])
-                        break
-                    pass
             
             elif Opc_1 == 3:
                 while True:
@@ -455,13 +440,6 @@ Ingrese: '''))
                                 print("El ID digitado es erroneo. Por favor ingrese un ID valido.")
                                 pass
                         break
-                                    actualizar_curso_tutor(id, nombre, "id", idCurso)
-                                    validarGuardado(tutor["_id"])
-                                    break
-                            else:
-                                print("El ID digitado es erroneo. Por favor ingrese un ID valido.")
-                                pass
-                        break
             else:
                 print("Opción Inválida. Proporcione una opción correcta.")    
 
@@ -507,9 +485,7 @@ Ingrese: '''))
                 for aprendiz in aprendices:
                     print(aprendiz)
                     time.sleep(1)
-                    
-            elif Opc_2 == 3:
-                    
+
             elif Opc_2 == 3:
                 tipo = "Tutor"
                 llave = str(input("Ingrese el criterio de búsqueda\nid, nombre, carrera ó semestre: ")).lower()
@@ -519,8 +495,6 @@ Ingrese: '''))
                 for tutor in tutores:
                     print(tutor)
                     time.sleep(1)
-            
-            elif Opc_2 == 4:
             
             elif Opc_2 == 4:
                 tipo = "Curso"
