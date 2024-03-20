@@ -2,8 +2,8 @@ import couchdb
 import time
 #conexión a la BD:
 
-user = "admin"
-pwd = "admin123*"
+user ="JuanJaramillo"
+pwd = "JuanEduardo12004"
 host = "127.0.0.1"
 port = "5984"
 
