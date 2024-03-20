@@ -280,7 +280,15 @@ Ingrese: '''))
                             "idCurso":idCursos
                         }
                         
-                        db.save(aprendiz)                        
+                        db.save(aprendiz) 
+                        for curso_id in idCursos:
+                            actualizar_curso_aprendiz(id, nombre, "id", curso_id)
+                            curso_aprendiz = {
+                            "tipo" : "curso_aprendiz",
+                            "idCurso" : idCursos,
+                            "idAprendiz" : id
+                        }
+                        db.save(curso_aprendiz)                       
                         validarGuardado(aprendiz["_id"])
                         break
                     pass
