@@ -245,8 +245,7 @@ Ingrese: '''))
                             "duracion":duracion,  
                             "certificado":certificado,
                             "calPromedio":calPromedio,
-                            "aprendices": [],
-                            "tutor":[]
+                            "aprendices": []
                         }
                         db.save(curso)
                         validarGuardado(curso["_id"])
