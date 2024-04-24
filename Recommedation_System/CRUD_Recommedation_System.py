@@ -2,7 +2,7 @@ import couchdb
 import time
 #conexión a la BD:
 
-user = "JuanJaramillo"
+user ="JuanJaramillo"
 pwd = "JuanEduardo12004"
 host = "127.0.0.1"
 port = "5984"
@@ -44,7 +44,6 @@ def consultar_documento(tipo,llave,valor):
     try:        
         # Obtener el documento utilizando la vista
         resultados = db.view(f"{tipo}/{view_name}", key=valor)
-        print("Dato encontrado")
         return [row.value for row in resultados]
     except couchdb.ResourceNotFound:
         print(f"No se encontro")
@@ -227,7 +226,7 @@ Ingrese: '''))
                     else:
                         nombre = input("Ingrese el nombre del curso: ")
                         categoria = input("Ingrese la categoria del curso: ")
-                        modalidad = input("Ingrese la modalidad del curso: ")
+                        modalidad = input("Ingrese la modalidad del curso (presencial o virtual): ")
                         gratuito = True if input("¿El curso es gratuito? (V/F)\n Ingrese una opcion: ").upper() == "V" else False
                         precio = float(input("Ingrese el precio del curso: "))
                         duracion = int(input("Ingrese la duración del curso (horas): "))
