@@ -28,13 +28,13 @@ public class CursoServiceImp implements CursoService{
     }
 
     @Override
-    public Optional<CursoModel> obtenerPorId(int cursoid){
+    public Optional<CursoModel> cursoPorId(int cursoid){
         return this.cursoRepository.findById(cursoid);
     }
 
     @Override
     public String eliminarCursoPorId(int cursoid){
-        Optional<CursoModel> cursoRef = this.cursoRepository.findById(cursoid)
+        Optional<CursoModel> cursoRef = this.cursoRepository.findById(cursoid);
         this.cursoRepository.deleteById(cursoid);
         return "Curso " + cursoRef.get().getId_curso() + " eliminado";
     }

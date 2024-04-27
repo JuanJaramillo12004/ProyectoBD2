@@ -5,23 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="919d49b0-07f7-4618-aa1d-881957f59247" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/SpringBoot.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/aprendiendoSpring/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/aprendiendoSpring/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/aprendiendoSpring/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/aprendiendoSpring/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/aprendiendoSpring/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/aprendiendoSpring/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/aprendiendoSpring/src/main/java/com/example/aprendiendoSpring/AprendiendoSpringApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/aprendiendoSpring/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/aprendiendoSpring/src/test/java/com/example/aprendiendoSpring/AprendiendoSpringApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MongoBD2/src/main/java/com/example/MongoBD2/service/CalificacionServiceImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/MongoBD2/src/main/java/com/example/MongoBD2/service/CalificacionServiceImp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MongoBD2/src/main/java/com/example/MongoBD2/service/TutorServiceImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/MongoBD2/src/main/java/com/example/MongoBD2/service/TutorServiceImp.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,10 +16,22 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 8
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "JuanJaramillo12004"
+  }
 }]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/JuanJaramillo12004/ProyectoBD2.git",
+    "accountId": "bc45c4e9-2861-429c-a618-2df4d81bdb80"
+  }
+}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2fHDJhqPLxKkpd3d3LfaTkxvpZl" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -46,12 +43,13 @@
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "F:/JUAN/UAOProyects/SpringBoot/MongoBD2",
+    "last_opened_file_path": "F:/JUAN/ProyectoBD2-2/SpringBoot/MongoBD2",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -87,6 +85,7 @@
       <option name="presentableId" value="Default" />
       <updated>1713449209810</updated>
       <workItem from="1713449230219" duration="957000" />
+      <workItem from="1714167555919" duration="637000" />
     </task>
     <servers />
   </component>
