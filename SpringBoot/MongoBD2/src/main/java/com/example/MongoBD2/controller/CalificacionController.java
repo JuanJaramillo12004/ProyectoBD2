@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import java.util.List;
 
 @RestController
-@RequestMapping("/apiweb/v1/curso")
+@RequestMapping("/apiweb/calificacion")
 @CrossOrigin
 public class CalificacionController {
     @Autowired
