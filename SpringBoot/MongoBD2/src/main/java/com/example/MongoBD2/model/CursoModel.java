@@ -18,4 +18,5 @@ public class CursoModel {
     private String nombre;
     private String categoria;
     private Integer total_horas;
+    private Integer tutorId;
 }

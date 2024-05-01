@@ -16,5 +16,5 @@ public class CalificacionModel {
     @Id
     private Integer id_calificacion;
     private Integer id_curso;
-    private Integer calificacion;
+    private Double calificacion;
 }

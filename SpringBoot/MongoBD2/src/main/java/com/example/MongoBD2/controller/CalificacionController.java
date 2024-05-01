@@ -19,7 +19,7 @@ public class CalificacionController {
 
     //Crear un calificacion
     @PostMapping("/")
-    public ResponseEntity<String> crearCurso(@RequestBody CalificacionModel calificacion) {
+    public ResponseEntity<String> creaCalificacion(@RequestBody CalificacionModel calificacion) {
         calificacionService.crearCalificacion(calificacion);
         return new ResponseEntity<String>(calificacionService.crearCalificacion(calificacion), HttpStatus.OK);
     }

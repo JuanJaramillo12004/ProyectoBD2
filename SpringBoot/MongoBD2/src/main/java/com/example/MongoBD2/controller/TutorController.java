@@ -17,19 +17,19 @@ public class TutorController {
     @Autowired
     private TutorService tutorService;
 
-    //Crear un curso
+    //Crear un tutor
     @PostMapping("/")
     public ResponseEntity<String> crearTutor(@RequestBody TutorModel tutor) {
         tutorService.crearTutor(tutor);
         return new ResponseEntity<String>(tutorService.crearTutor(tutor), HttpStatus.OK);
     }
-    //Listar Cursos
+    //Listar tutores
     @GetMapping("/")
     public ResponseEntity<List<TutorModel>> listarTutores() {
         List<TutorModel> tutores = tutorService.listarTutores();
         return new ResponseEntity<>(tutores, HttpStatus.OK);
     }
-    //Consultar un curso por Id
+    //Consultar un tutor por Id
     @GetMapping("/{tutorId}")
     public ResponseEntity<TutorModel> tutorPorId(@PathVariable Integer tutorId) {
         TutorModel tutor = this.tutorService.tutorPorId(tutorId)
