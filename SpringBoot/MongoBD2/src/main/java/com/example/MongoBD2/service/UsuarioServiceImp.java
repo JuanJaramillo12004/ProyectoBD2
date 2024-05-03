@@ -33,9 +33,8 @@ public class UsuarioServiceImp implements UsuarioService{
     }
 
     @Override
-    public String eliminarUsuarioPorId(int usuarioid){
-        Optional<UsuarioModel> tutorRef = this.usuarioRepository.findById(usuarioid);
-        this.usuarioRepository.deleteById(usuarioid);
-        return "Usuario " + tutorRef.get().getId_usuario() + " eliminado";
+    public String actualizarUsuarioPorId(UsuarioModel usuario){
+        this.usuarioRepository.save(usuario);
+        return "Usuario " + usuario.getNombre() + " actualizado";
     }
 }

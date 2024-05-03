@@ -2,6 +2,7 @@ package com.example.MongoBD2.controller;
 
 import com.example.MongoBD2.exception.CamposInvalidosException;
 import com.example.MongoBD2.exception.RecursoNoEncontradoException;
+import com.example.MongoBD2.model.CursoModel;
 import com.example.MongoBD2.model.TutorModel;
 import com.example.MongoBD2.service.TutorService;
 import org.springframework.http.ResponseEntity;
@@ -35,5 +36,22 @@ public class TutorController {
         TutorModel tutor = this.tutorService.tutorPorId(tutorId)
                 .orElseThrow(() -> new RecursoNoEncontradoException("Error! No se encontró el curso con el id " + tutorId));
         return ResponseEntity.ok(tutor);
+    }
+
+    //Actualizar la información básica del curso
+    @PutMapping("/{tutorId}")
+    public ResponseEntity<String> actualizarTutorPorId(@PathVariable Integer tutorId, @RequestBody TutorModel tutorData) {
+        TutorModel tutor = this.tutorService.tutorPorId(tutorId)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Error!. No se encontró el tutor con el id " + tutorId));
+        String actualizarNombre = tutorData.getNombre();
+        String actualizarFacultad = tutorData.getFacultad();
+
+        if (actualizarNombre != null && !actualizarNombre.isEmpty() && actualizarFacultad != null && !actualizarFacultad.isEmpty()) {
+            tutor.setNombre(actualizarNombre);
+            tutor.setFacultad(actualizarFacultad);
+            return new ResponseEntity<String>(tutorService.actualizarTutorPorId(tutor), HttpStatus.OK);
+        } else {
+            throw new CamposInvalidosException("Error!");
+        }
     }
 }

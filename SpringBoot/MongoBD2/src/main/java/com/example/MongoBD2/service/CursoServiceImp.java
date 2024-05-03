@@ -33,9 +33,8 @@ public class CursoServiceImp implements CursoService{
     }
 
     @Override
-    public String eliminarCursoPorId(int cursoid){
-        Optional<CursoModel> cursoRef = this.cursoRepository.findById(cursoid);
-        this.cursoRepository.deleteById(cursoid);
-        return "Curso " + cursoRef.get().getId_curso() + " eliminado";
+    public String actualizarCursoPorId(CursoModel curso){
+        this.cursoRepository.save(curso);
+        return "Curso " + curso.getNombre() + " actualizado";
     }
 }

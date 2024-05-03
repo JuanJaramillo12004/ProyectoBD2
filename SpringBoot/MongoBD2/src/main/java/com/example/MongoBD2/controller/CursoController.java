@@ -23,12 +23,14 @@ public class CursoController {
         cursoService.crearCurso(curso);
         return new ResponseEntity<String>(cursoService.crearCurso(curso), HttpStatus.OK);
     }
+
     //Listar Cursos
     @GetMapping("/")
     public ResponseEntity<List<CursoModel>> listarCursos() {
         List<CursoModel> cursos = cursoService.listarCursos();
         return new ResponseEntity<>(cursos, HttpStatus.OK);
     }
+
     //Consultar un curso por Id
     @GetMapping("/{cursoId}")
     public ResponseEntity<CursoModel> cursoPorId(@PathVariable Integer cursoId) {
@@ -36,25 +38,23 @@ public class CursoController {
                 .orElseThrow(() -> new RecursoNoEncontradoException("Error! No se encontró el curso con el id " + cursoId));
         return ResponseEntity.ok(curso);
     }
+
     //Actualizar la información básica del curso
-    /*@PutMapping("/{cursoId}")
-    public ResponseEntity<String> actualizarCursoPorId(@PathVariable Integer cursoId, @RequestBody CursoModel detallesCurso) {
+    @PutMapping("/{cursoId}")
+    public ResponseEntity<String> actualizarCursoPorId(@PathVariable Integer cursoId, @RequestBody CursoModel cursoData) {
         CursoModel curso = this.cursoService.cursoPorId(cursoId)
                 .orElseThrow(() -> new RecursoNoEncontradoException("Error!. No se encontró el curso con el id " + cursoId));
-        //Obtenemos los datos que se van actualizar del curso y que son enviados del json
-        String nombreActualizar = detallesCurso.getNombre_curso();
-        String modalidadActualizar = detallesCurso.getModalidad();
+        String actualizarNombre = cursoData.getNombre();
+        String actualizarCategoria = cursoData.getCategoria();
 
-        //Verificamos que estos campos actualizar no sean nulos o vacios y controlamos la excepcion
-        if (nombreActualizar != null && !nombreActualizar.isEmpty() && modalidadActualizar != null && !modalidadActualizar.isEmpty()) {
-            //Asignamos los valores que vamos actualizar del curso
-            curso.setNombre_curso(nombreActualizar);
-            curso.setModalidad(modalidadActualizar);
-            //Guardamos los cambios
+        if (actualizarNombre != null && !actualizarNombre.isEmpty() && actualizarCategoria != null && !actualizarCategoria.isEmpty()) {
+            curso.setNombre(actualizarNombre);
+            curso.setCategoria(actualizarCategoria);
             return new ResponseEntity<String>(cursoService.actualizarCursoPorId(curso), HttpStatus.OK);
         } else {
-            throw new CamposInvalidosException("Error! El nombre y la modalidad de el curso no pueden estar vacio");
-    }*/
+            throw new CamposInvalidosException("Error!");
+        }
+    }
 }
 
 

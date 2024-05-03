@@ -3,6 +3,7 @@ package com.example.MongoBD2.controller;
 import com.example.MongoBD2.exception.CamposInvalidosException;
 import com.example.MongoBD2.exception.RecursoNoEncontradoException;
 import com.example.MongoBD2.model.CalificacionModel;
+import com.example.MongoBD2.model.CursoModel;
 import com.example.MongoBD2.service.CalificacionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,5 +36,19 @@ public class CalificacionController {
         CalificacionModel calificacion = this.calificacionService.calificacionPorId(calificacionId)
                 .orElseThrow(() -> new RecursoNoEncontradoException("Error! No se encontró el curso con el id " + calificacionId));
         return ResponseEntity.ok(calificacion);
+    }
+    //Actualizar la información básica del curso
+    @PutMapping("/{calificacionId}")
+    public ResponseEntity<String> actualizarCalificacionPorId(@PathVariable Integer calificacionId, @RequestBody CalificacionModel calificacionData) {
+        CalificacionModel calificacion = this.calificacionService.calificacionPorId(calificacionId)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Error!. No se encontró el calificacion con el id " + calificacionId));
+        Double actualizarCalificacion = calificacionData.getCalificacion();
+
+        if (actualizarCalificacion != null) {
+            calificacion.setCalificacion(actualizarCalificacion);
+            return new ResponseEntity<String>(calificacionService.actualizarCalPorId(calificacion), HttpStatus.OK);
+        } else {
+            throw new CamposInvalidosException("Error!");
+        }
     }
 }

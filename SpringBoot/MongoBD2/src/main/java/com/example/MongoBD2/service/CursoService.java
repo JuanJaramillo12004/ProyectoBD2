@@ -8,5 +8,5 @@ public interface CursoService {
     String crearCurso(CursoModel curso);
     List<CursoModel> listarCursos();
     Optional<CursoModel> cursoPorId(int cursoid);
-    String eliminarCursoPorId(int cursoid);
+    String actualizarCursoPorId(CursoModel curso);
 }

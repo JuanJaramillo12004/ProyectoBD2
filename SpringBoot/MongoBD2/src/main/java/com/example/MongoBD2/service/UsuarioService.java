@@ -8,5 +8,5 @@ public interface UsuarioService {
     String crearUsuario(UsuarioModel usuario);
     List<UsuarioModel> listarUsuarios();
     Optional<UsuarioModel> usuarioPorId(int usuarioid);
-    String eliminarUsuarioPorId(int usuarioid);
+    String actualizarUsuarioPorId(UsuarioModel usuario);
 }

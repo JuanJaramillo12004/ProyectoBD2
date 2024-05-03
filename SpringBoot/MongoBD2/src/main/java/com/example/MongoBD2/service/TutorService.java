@@ -8,5 +8,5 @@ public interface TutorService {
     String crearTutor(TutorModel tutor);
     List<TutorModel> listarTutores();
     Optional<TutorModel> tutorPorId(int tutorid);
-    String eliminarTutorPorId(int tutorid);
+    String actualizarTutorPorId(TutorModel tutor);
 }

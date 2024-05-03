@@ -33,9 +33,8 @@ public class TutorServiceImp implements TutorService{
     }
 
     @Override
-    public String eliminarTutorPorId(int tutorid){
-        Optional<TutorModel> tutorRef = this.tutorRepository.findById(tutorid);
-        this.tutorRepository.deleteById(tutorid);
-        return "Tutor " + tutorRef.get().getId_tutor() + " eliminado";
+    public String actualizarTutorPorId(TutorModel tutor){
+        this.tutorRepository.save(tutor);
+        return "Tutor " + tutor.getNombre() + " actualizado";
     }
 }

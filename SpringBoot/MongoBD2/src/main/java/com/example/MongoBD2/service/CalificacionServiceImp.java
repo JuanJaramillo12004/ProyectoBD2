@@ -33,9 +33,8 @@ public class CalificacionServiceImp implements CalificacionService{
     }
 
     @Override
-    public String eliminarCalificacionPorId(int calificacionid){
-        Optional<CalificacionModel> calificacionRef = this.calificacionRepository.findById(calificacionid);
-        this.calificacionRepository.deleteById(calificacionid);
-        return "Calificacion " + calificacionRef.get().getId_calificacion() + " eliminado";
+    public String actualizarCalPorId(CalificacionModel calificacion){
+        this.calificacionRepository.save(calificacion);
+        return "Calificacion actualizado";
     }
 }
