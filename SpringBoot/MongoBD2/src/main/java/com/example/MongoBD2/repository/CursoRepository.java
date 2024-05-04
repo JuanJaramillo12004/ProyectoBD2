@@ -9,6 +9,9 @@ import java.util.List;
 
 @Repository
 public interface CursoRepository extends MongoRepository<CursoModel, Integer>{
-
+    @Aggregation({
+            "{'$lookup': { 'from': 'Calificaciones', 'localField': '_id', 'foreignField': 'id_curso', 'as': 'Calificaciones' } }",
+            "{'$unwind': '$Calificaciones' }",
+            "{'$match': { 'Calificaciones.calificacion': { '$gte': ?0 } } }"})
     List<CursoModel> listarCursosCalificacionesMayoresAN(Double calificacion);
 }
