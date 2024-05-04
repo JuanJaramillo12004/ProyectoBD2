@@ -3,6 +3,7 @@ package com.example.MongoBD2.controller;
 import com.example.MongoBD2.exception.CamposInvalidosException;
 import com.example.MongoBD2.exception.RecursoNoEncontradoException;
 import com.example.MongoBD2.model.CursoModel;
+import com.example.MongoBD2.model.TutorModel;
 import com.example.MongoBD2.service.CursoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -54,6 +55,12 @@ public class CursoController {
         } else {
             throw new CamposInvalidosException("Error!");
         }
+    }
+
+    @GetMapping("/CursoCal/{calificacion}")
+    public ResponseEntity<List<CursoModel>> mostrarCursosCalificacionesMayoresAN(@PathVariable Double calificacion) {
+        List<CursoModel> tutores = tutorService.mostrarCalificacionesMayoresAN(calificacion);
+        return new ResponseEntity<>(tutores, HttpStatus.OK);
     }
 }
 

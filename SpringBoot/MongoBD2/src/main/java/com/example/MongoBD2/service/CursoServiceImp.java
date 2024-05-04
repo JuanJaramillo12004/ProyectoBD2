@@ -37,4 +37,9 @@ public class CursoServiceImp implements CursoService{
         this.cursoRepository.save(curso);
         return "Curso " + curso.getNombre() + " actualizado";
     }
+
+    @Override
+    public List<CursoModel> mostrarCursosPorCalificacion(double calificacion){
+        return this.cursoRepository.listarCursosCalificacionesMayoresAN(calificacion);
+    }
 }
