@@ -9,5 +9,5 @@ public interface CursoService {
     List<CursoModel> listarCursos();
     Optional<CursoModel> cursoPorId(int cursoid);
     String actualizarCursoPorId(CursoModel curso);
-    List<CursoModel> mostrarCursosPorCalificacion(double calificacion);
+    List<CursoModel> mostrarCursosPorCalificacionMayoresAN(double calificacion);
 }

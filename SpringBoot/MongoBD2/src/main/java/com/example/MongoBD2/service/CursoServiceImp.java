@@ -39,7 +39,7 @@ public class CursoServiceImp implements CursoService{
     }
 
     @Override
-    public List<CursoModel> mostrarCursosPorCalificacion(double calificacion){
+    public List<CursoModel> mostrarCursosPorCalificacionMayoresAN(double calificacion){
         return this.cursoRepository.listarCursosCalificacionesMayoresAN(calificacion);
     }
 }
