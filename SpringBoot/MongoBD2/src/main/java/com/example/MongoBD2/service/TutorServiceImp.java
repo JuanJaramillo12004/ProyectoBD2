@@ -39,7 +39,7 @@ public class TutorServiceImp implements TutorService{
     }
 
     @Override
-    public List<TutorModel> mostrarCalificacionesMayoresAN(double calificacion){
-        return this.tutorRepository.listarCalificacionesMayoresAN(calificacion);
+    public List<TutorModel> mostrarTutoresCalificacionesMayoresAN(double calificacion){
+        return this.tutorRepository.listarTutoresCalificacionesMayoresAN(calificacion);
     }
 }

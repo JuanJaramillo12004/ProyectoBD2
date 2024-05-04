@@ -14,7 +14,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 public class CursoModel {
     @Id
-    private Integer id_curso;
+    private Integer _id;
     private String nombre;
     private String categoria;
     private Integer total_horas;

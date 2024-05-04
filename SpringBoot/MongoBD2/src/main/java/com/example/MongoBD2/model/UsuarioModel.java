@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 public class UsuarioModel {
     @Id
-    private Integer id_usuario;
+    private Integer _id;
     private String nombre;
     private String carrera;
     private Integer semestre;

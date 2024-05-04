@@ -56,8 +56,8 @@ public class TutorController {
     }
 
     @GetMapping("/TutorCursoCal/{calificacion}")
-    public ResponseEntity<List<TutorModel>> mostrarCalificacionesMayoresAN(@PathVariable Double calificacion) {
-        List<TutorModel> tutores = tutorService.mostrarCalificacionesMayoresAN(calificacion);
+    public ResponseEntity<List<TutorModel>> mostrarTutoresCalificacionesMayoresAN(@PathVariable Double calificacion) {
+        List<TutorModel> tutores = tutorService.mostrarTutoresCalificacionesMayoresAN(calificacion);
         return new ResponseEntity<>(tutores, HttpStatus.OK);
     }
 }

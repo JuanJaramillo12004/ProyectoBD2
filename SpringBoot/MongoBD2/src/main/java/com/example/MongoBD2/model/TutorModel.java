@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 public class TutorModel {
     @Id
-    private Integer id_tutor;
+    private Integer _id;
     private String nombre;
     private String facultad;
 }
