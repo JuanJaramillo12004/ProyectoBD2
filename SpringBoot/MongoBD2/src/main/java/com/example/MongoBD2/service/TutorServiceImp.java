@@ -37,4 +37,9 @@ public class TutorServiceImp implements TutorService{
         this.tutorRepository.save(tutor);
         return "Tutor " + tutor.getNombre() + " actualizado";
     }
+
+    @Override
+    public List<TutorModel> mostrarCalificacionesMayoresAN(double calificacion){
+        return this.tutorRepository.listarCalificacionesMayoresAN(calificacion);
+    }
 }

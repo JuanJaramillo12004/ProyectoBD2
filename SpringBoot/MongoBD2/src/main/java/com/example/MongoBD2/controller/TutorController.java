@@ -54,4 +54,10 @@ public class TutorController {
             throw new CamposInvalidosException("Error!");
         }
     }
+
+    @GetMapping("/TutorCursoCal/{calificacion}")
+    public ResponseEntity<List<TutorModel>> mostrarCalificacionesMayoresAN(@PathVariable Double calificacion) {
+        List<TutorModel> tutores = tutorService.mostrarCalificacionesMayoresAN(calificacion);
+        return new ResponseEntity<>(tutores, HttpStatus.OK);
+    }
 }

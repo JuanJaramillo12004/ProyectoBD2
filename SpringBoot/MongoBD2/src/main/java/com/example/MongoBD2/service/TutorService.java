@@ -9,4 +9,5 @@ public interface TutorService {
     List<TutorModel> listarTutores();
     Optional<TutorModel> tutorPorId(int tutorid);
     String actualizarTutorPorId(TutorModel tutor);
+    List<TutorModel> mostrarCalificacionesMayoresAN(double calificacion);
 }
